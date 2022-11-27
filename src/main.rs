@@ -1,34 +1,54 @@
-use std::io::{self, stdout, Read};
-use termion::raw::IntoRawMode;
+#![allow(dead_code)]
+use std::{env, fs};
 
-fn to_ctrl_byte(c: char) -> u8 {
-    let byte = c as u8;
-    byte & 0b0001_1111
+struct Output {}
+
+impl Output {
+    pub fn write_raw(&self, data: &String) {
+        println!("{}", data)
+    }
+
+    pub fn init() -> Self {
+        return Output {};
+    }
 }
 
-fn die(e: std::io::Error) {
-    panic!(e);
+struct Document {
+    pub content: String,
+    pub name: String,
+}
+
+impl Document {
+    pub fn init(file_name: &String) -> Self {
+        let result = fs::read_to_string(file_name);
+        let content = result.unwrap();
+        return Self {
+            name: file_name.clone(),
+            content: content,
+        };
+    }
+}
+
+struct Application {
+    output: Output,
+}
+
+impl Application {
+    pub fn init() -> Self {
+        Self {
+            output: Output::init(),
+        }
+    }
 }
 
 fn main() {
-    let _stdout = stdout().into_raw_mode().unwrap();
-
-    for b in io::stdin().bytes() {
-        match b {
-            Ok(b) => {
-                let c = b as char;
-                if c.is_control() {
-                    println!("{:#b} \r", b);
-                } else {
-                    println!("{:?} ({})\r", b, c);
-                }
-
-                println!("{}", c);
-                if b == to_ctrl_byte('q') {
-                    break;
-                }
-            }
-            Err(e) => die(e),
-        }
+    let app = Application::init();
+    let args: Vec<String> = env::args().collect();
+    let maybe_file_name = args.get(1);
+    if maybe_file_name.is_none() {
+        return;
     }
+    let file_name = maybe_file_name.unwrap();
+    let document = Document::init(file_name);
+    app.output.write_raw(&document.content);
 }
