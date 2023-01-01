@@ -4,6 +4,7 @@
 #
 #already existing elements are commented out
 
+/dist
 /target
 **/*.rs.bk
 package.json
