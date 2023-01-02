@@ -29,6 +29,14 @@ pub fn App() -> Html {
                     {(*response).clone()}
                 </p>
             </div>
+            <div id="text-input" contenteditable="true"></div>
+            <div>
+                <button id="run-query" class="run-button" type="button">
+                    <p>
+                        { "Run" }
+                    </p>
+                </button>
+            </div>
         </>
     }
 }
