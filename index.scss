@@ -1,7 +1,6 @@
 html,
 body {
   height: 100%;
-  margin: 0;
 }
 
 body {
@@ -10,7 +9,10 @@ body {
   justify-content: center;
 
   background: linear-gradient(to bottom right, #444444, #009a5b);
-  font-size: 1.5rem;
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 .run-button {
@@ -35,22 +37,50 @@ body {
   box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6), inset 2px 2px 3px rgba(0, 0, 0, 0.6);
 }
 
-.editor {
+.workspace {
   display: grid;
   place-items: center;
   width: 90%;
   height: 90%;
 }
 
+.inputarea {
+  width: 0px;
+  height: 0px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  resize: none;
+  border: none;
+  overflow: hidden;
+  color: transparent;
+  background-color: transparent;
+}
+
+.cursor {
+  position: absolute;
+  height: inherit;
+  background-color: #000;
+  width: 2px;
+}
+
+.mouse-cursor-text {
+  cursor: text;
+}
+
+.editor {
+  width: 90%;
+  height: 90%;
+}
+
 #editor-query {
-  padding: 20px;
   border: 1px solid #dddddd;
   background-color: #dddddd;
   height: 90%;
   width: 90%;
 }
 
-#editor-output {
+#output {
   padding: 20px;
   border: 1px solid #dddddd;
   background-color: #dddddd;
